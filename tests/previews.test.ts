@@ -18,7 +18,7 @@ vi.mock('../server/storage.ts', () => ({
   deleteObject: mocks.deleteObject,
 }))
 
-import { getImage, primeImage } from '../server/previews.ts'
+import { getImage, primeImage, withRenderSlot } from '../server/previews.ts'
 
 let seq = 0
 const frame = (over: Partial<Frame> = {}): Frame =>
@@ -126,5 +126,37 @@ describe('getImage', () => {
     expect(mocks.renderFrame).toHaveBeenCalledTimes(12)
     /* the prime is per frame version: an edit needs a real render again */
     expect((await getImage({ ...f, updatedAt: 2 }, png)).status).toBe('rate-limited')
+  })
+})
+
+describe('withRenderSlot', () => {
+  it('runs at most three renders at once and finishes them all', async () => {
+    let running = 0
+    let peak = 0
+    const releases: (() => void)[] = []
+    const render = () =>
+      new Promise<number>((resolve) => {
+        running++
+        peak = Math.max(peak, running)
+        releases.push(() => {
+          running--
+          resolve(running)
+        })
+      })
+    const all = Promise.all(Array.from({ length: 7 }, () => withRenderSlot(render)))
+    /* release whatever is running until the queue drains */
+    for (let round = 0; round < 7; round++) {
+      await new Promise((r) => setTimeout(r, 0))
+      releases.shift()?.()
+    }
+    await all
+    expect(peak).toBe(3)
+    expect(running).toBe(0)
+  })
+
+  it('frees the slot when a render fails', async () => {
+    const failures = Array.from({ length: 4 }, () => withRenderSlot(() => Promise.reject(new Error('boom'))))
+    await Promise.allSettled(failures)
+    await expect(withRenderSlot(() => Promise.resolve('ok'))).resolves.toBe('ok')
   })
 })

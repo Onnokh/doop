@@ -31,6 +31,28 @@ const IMG_CACHE_MAX = 200
 const renderHits = new Map<string, number[]>()
 const RENDERS_PER_MIN = env.PREVIEW_RENDERS_PER_MIN
 
+/* Renders at once. The canvas draws every frame without a live document as
+   its image (src/lib/frameLod.ts), so opening a large canvas can ask for
+   dozens of renders in one go; each boots a Chromium page, and unqueued they
+   would all compete for the server's CPU and memory together. */
+const MAX_PARALLEL_RENDERS = 3
+let rendersRunning = 0
+const renderQueue: (() => void)[] = []
+
+/** Run a render once one of the parallel slots is free. */
+export async function withRenderSlot<T>(render: () => Promise<T>): Promise<T> {
+  if (rendersRunning >= MAX_PARALLEL_RENDERS) await new Promise<void>((resolve) => renderQueue.push(resolve))
+  else rendersRunning++
+  try {
+    return await render()
+  } finally {
+    /* hand the slot straight to the next render, or give it back */
+    const next = renderQueue.shift()
+    if (next) next()
+    else rendersRunning--
+  }
+}
+
 export interface ImageRequest {
   ext: 'png' | 'jpg'
   scale: 1 | 2
@@ -67,12 +89,14 @@ export async function getImage(frame: Frame, req: ImageRequest): Promise<ImageRe
 
   if (!pending) {
     if (!(await consumeRenderBudget(req.ip, req.isAuthenticated))) return { status: 'rate-limited' }
-    pending = preview
-      ? /* renders AND persists — the next cold start serves from storage */
-        thumbs.create(frame)
-      : loadScreenshot().then(({ renderFrame }) =>
-          renderFrame(frame, req.scale, { type: req.ext === 'jpg' ? 'jpeg' : 'png', quality: req.quality }),
-        )
+    pending = withRenderSlot(() =>
+      preview
+        ? /* renders AND persists — the next cold start serves from storage */
+          thumbs.create(frame)
+        : loadScreenshot().then(({ renderFrame }) =>
+            renderFrame(frame, req.scale, { type: req.ext === 'jpg' ? 'jpeg' : 'png', quality: req.quality }),
+          ),
+    )
     remember(key, pending, frame.updatedAt)
   }
 
