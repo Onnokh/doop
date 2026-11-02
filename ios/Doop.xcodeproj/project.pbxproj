@@ -369,7 +369,7 @@
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = x86_64;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = N29YR8ZK97;
+				DEVELOPMENT_TEAM = 5Q5AZ5596L;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Doop/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = doop;
@@ -406,7 +406,7 @@
 				);
 				SWIFT_OBJC_BRIDGING_HEADER = BlitzKit/include/doopblitz.h;
 				MARKETING_VERSION = 0.1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = design.doop.ios;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.onkie.doop;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -425,7 +425,7 @@
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = x86_64;
 				CURRENT_PROJECT_VERSION = 1;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = N29YR8ZK97;
+				DEVELOPMENT_TEAM = 5Q5AZ5596L;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Doop/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = doop;
@@ -462,7 +462,7 @@
 				);
 				SWIFT_OBJC_BRIDGING_HEADER = BlitzKit/include/doopblitz.h;
 				MARKETING_VERSION = 0.1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = design.doop.ios;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.onkie.doop;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SUPPORTS_MACCATALYST = NO;
@@ -478,13 +478,13 @@
 				CODE_SIGN_STYLE = Automatic;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = x86_64;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = N29YR8ZK97;
+				DEVELOPMENT_TEAM = 5Q5AZ5596L;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = DoopActivity/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Doop Agent Status";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				MARKETING_VERSION = 0.1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = design.doop.ios.activity;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.onkie.doop.activity;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -500,13 +500,13 @@
 				CODE_SIGN_STYLE = Automatic;
 				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = x86_64;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_TEAM = N29YR8ZK97;
+				DEVELOPMENT_TEAM = 5Q5AZ5596L;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = DoopActivity/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = "Doop Agent Status";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.2;
 				MARKETING_VERSION = 0.1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = design.doop.ios.activity;
+				PRODUCT_BUNDLE_IDENTIFIER = dev.onkie.doop.activity;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
